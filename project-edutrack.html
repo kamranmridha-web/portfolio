@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduTrack — Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2.5rem;
+      position: relative;
+      z-index: 10;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(20px);
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .login-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .login-header p {
+      color: var(--text2);
+      font-size: 0.85rem;
+    }
+    .login-footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--text2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="login-card reveal visible">
+    <div class="login-header">
+      <div class="login-logo">EduTrack</div>
+      <p>Student Progress Portal</p>
+    </div>
+
+    <form onsubmit="event.preventDefault(); alert('Demo: This system is currently in preview mode.');">
+      <div class="form-group">
+        <label for="uid">Student ID / Email</label>
+        <input type="text" id="uid" class="form-control" placeholder="E.g. EISC-2024-001" required>
+      </div>
+      <div class="form-group">
+        <label for="pass">Password</label>
+        <input type="password" id="pass" class="form-control" placeholder="••••••••" required>
+      </div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; font-size:0.8rem;">
+        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:var(--text2);">
+          <input type="checkbox"> Remember me
+        </label>
+        <a href="#" style="color:var(--accent);">Forgot password?</a>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; justify-content:center;">Sign In to Dashboard</button>
+    </form>
+
+    <div class="login-footer">
+      Don't have an account? <a href="#" style="color:var(--accent);">Contact Admin</a>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+      <a href="index.html" style="font-size: 0.8rem; color: var(--text2);">← Back to Portfolio</a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

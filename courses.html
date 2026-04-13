@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses — Kamran Mridha Raaj</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KMR.</a>
+  <div class="nav-links">
+    <a href="index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="courses.html">Courses</a>
+    <a href="projects.html">Projects</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-actions">
+
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div style="position:relative; z-index:1;">
+    <div class="section-label">// courses & tutorials</div>
+    <h1>Learn &amp; <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Grow</span></h1>
+    <p>Structured courses designed to take you from beginner to confident ICT practitioner.</p>
+  </div>
+</div>
+
+<section class="section" style="padding-top: 1rem;">
+  <div class="container">
+    <!-- Filter Tabs -->
+    <div class="reveal" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem;">
+      <button class="btn btn-primary btn-sm filter-btn active" data-filter="all">All Courses</button>
+      <button class="btn btn-outline btn-sm filter-btn" data-filter="Beginner">Beginner</button>
+      <button class="btn btn-outline btn-sm filter-btn" data-filter="Intermediate">Intermediate</button>
+      <button class="btn btn-outline btn-sm filter-btn" data-filter="All Levels">All Levels</button>
+    </div>
+
+    <div class="grid-3" id="coursesGrid"></div>
+
+    <!-- Teaching Approach -->
+    <div style="margin-top: 5rem;" class="reveal">
+      <div class="section-header">
+        <div class="section-label">// my approach</div>
+        <h2 class="section-title">How I <span>Teach</span></h2>
+        <p class="section-desc">My teaching methodology is built around making complex concepts simple and actionable.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal reveal-delay-1" style="text-align:center;">
+          <div style="font-size:2.5rem; margin-bottom:1rem;">🎯</div>
+          <h3 style="font-weight:700; margin-bottom:0.75rem;">Outcome-Focused</h3>
+          <p style="color:var(--text2); font-size:0.875rem;">Every lesson has a clear, measurable objective. Students always know what they'll be able to do after each session.</p>
+        </div>
+        <div class="card reveal reveal-delay-2" style="text-align:center;">
+          <div style="font-size:2.5rem; margin-bottom:1rem;">🛠️</div>
+          <h3 style="font-weight:700; margin-bottom:0.75rem;">Hands-On Practice</h3>
+          <p style="color:var(--text2); font-size:0.875rem;">Theory is paired with real-world exercises, mini-projects, and live coding sessions to reinforce learning.</p>
+        </div>
+        <div class="card reveal reveal-delay-3" style="text-align:center;">
+          <div style="font-size:2.5rem; margin-bottom:1rem;">💬</div>
+          <h3 style="font-weight:700; margin-bottom:0.75rem;">Community Learning</h3>
+          <p style="color:var(--text2); font-size:0.875rem;">Students learn best together. I foster a collaborative environment with group projects and peer reviews.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">KMR.</div>
+  <p class="footer-tagline">ICT Lecturer · Developer · Educator</p>
+  <div class="footer-links">
+    <a href="index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="courses.html">Courses</a>
+    <a href="projects.html">Projects</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <p class="footer-copy">© 2026 Kamran Mridha Raaj. Crafted with ❤️ in Bangladesh.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => { b.classList.remove('btn-primary'); b.classList.add('btn-outline'); });
+      btn.classList.add('btn-primary'); btn.classList.remove('btn-outline');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.course-card').forEach(card => {
+        const level = card.querySelector('.badge:last-child')?.textContent.replace('◈ ', '') || '';
+        card.style.display = (filter === 'all' || level === filter) ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

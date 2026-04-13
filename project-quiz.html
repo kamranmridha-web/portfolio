@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICT Quiz Master — Interactive Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quiz-container {
+      max-width: 800px;
+      margin: 100px auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+    .question-count {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .question-text {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    .options-grid {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .option-btn {
+      padding: 1rem 1.5rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .option-btn:hover {
+      border-color: var(--accent);
+      background: rgba(108, 99, 255, 0.1);
+    }
+    .option-btn.correct {
+      background: rgba(67, 233, 123, 0.15);
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+    .option-btn.wrong {
+      background: rgba(255, 101, 132, 0.15);
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+    .quiz-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .score-badge {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--text2);
+    }
+    .result-screen {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    .result-score {
+      font-size: 4rem;
+      font-weight: 900;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">KMR.</a>
+  <div class="nav-links">
+    <a href="index.html">Portfolio</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div id="quizBox" class="quiz-container">
+    <div id="quizContent">
+      <div class="question-count">Question <span id="qNum">1</span> of <span id="qTotal">5</span></div>
+      <div id="qText" class="question-text">Loading question...</div>
+      <div id="options" class="options-grid"></div>
+      <div class="quiz-footer">
+        <div class="score-badge">Score: <span id="score">0</span></div>
+        <button id="nextBtn" class="btn btn-primary" style="display:none;" onclick="loadNext()">Next Question →</button>
+      </div>
+    </div>
+    
+    <div id="resultScreen" class="result-screen" style="display:none;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🏁</div>
+      <h2 class="section-title" style="margin-bottom: 1rem;">Quiz <span>Completed!</span></h2>
+      <p style="color: var(--text2); margin-bottom: 2rem;">You've showcased your ICT knowledge.</p>
+      <div class="result-score"><span id="finalScore">0</span>/<span id="finalTotal">5</span></div>
+      <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
+      <div style="margin-top: 2rem;">
+        <a href="index.html" class="btn btn-outline">Back to Portfolio</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "What does HTML stand for?",
+      options: ["Hyper Text Markup Language", "High-Level Text Machine Language", "Hyperlink and Text Management Language", "Home Tool Markup Language"],
+      correct: 0
+    },
+    {
+      q: "Which protocol is used for safe and secure communication over the web?",
+      options: ["HTTP", "FTP", "HTTPS", "SMTP"],
+      correct: 2
+    },
+    {
+      q: "In MySQL, which command is used to retrieve data from a table?",
+      options: ["GET", "SELECT", "FETCH", "READ"],
+      correct: 1
+    },
+    {
+      q: "Who is known as the inventor of the World Wide Web?",
+      options: ["Alan Turing", "Steve Jobs", "Tim Berners-Lee", "Bill Gates"],
+      correct: 2
+    },
+    {
+      q: "What is the primary function of a Router?",
+      options: ["To store data", "To display websites", "To link different networks and direct traffic", "To print documents"],
+      correct: 2
+    }
+  ];
+
+  let currentIdx = 0;
+  let score = 0;
+  let answered = false;
+
+  function initQuiz() {
+    currentIdx = 0;
+    score = 0;
+    restartQuiz();
+  }
+
+  function restartQuiz() {
+    currentIdx = 0;
+    score = 0;
+    document.getElementById('resultScreen').style.display = 'none';
+    document.getElementById('quizContent').style.display = 'block';
+    document.getElementById('score').innerText = score;
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    answered = false;
+    const qCount = questions.length;
+    const q = questions[currentIdx];
+    
+    document.getElementById('qNum').innerText = currentIdx + 1;
+    document.getElementById('qTotal').innerText = qCount;
+    document.getElementById('qText').innerText = q.q;
+    document.getElementById('nextBtn').style.display = 'none';
+    
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt;
+      btn.onclick = () => selectOption(idx, btn);
+      optionsDiv.appendChild(btn);
+    });
+  }
+
+  function selectOption(idx, btn) {
+    if (answered) return;
+    answered = true;
+    
+    const q = questions[currentIdx];
+    const btns = document.querySelectorAll('.option-btn');
+    
+    if (idx === q.correct) {
+      btn.classList.add('correct');
+      score++;
+      document.getElementById('score').innerText = score;
+    } else {
+      btn.classList.add('wrong');
+      btns[q.correct].classList.add('correct');
+    }
+    
+    document.getElementById('nextBtn').style.display = 'block';
+  }
+
+  function loadNext() {
+    currentIdx++;
+    if (currentIdx < questions.length) {
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('quizContent').style.display = 'none';
+    document.getElementById('resultScreen').style.display = 'block';
+    document.getElementById('finalScore').innerText = score;
+    document.getElementById('finalTotal').innerText = questions.length;
+  }
+
+  window.onload = initQuiz;
+</script>
+
+</body>
+</html>
